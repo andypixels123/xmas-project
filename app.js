@@ -1,9 +1,14 @@
-const pageText = document.getElementById("pageText");
-const favColour = document.getElementById("favColour");
-const howOld = document.getElementById("howOld");
-const dataForm = document.getElementById("dataForm");
+const pageText = document.getElementById("pageText"); // page text
+const favColour = document.getElementById("favColour"); // fav colour input
+const userName = document.getElementById("userName"); // username input
+const howOld = document.getElementById("howOld"); // age input
+const m = document.getElementById('maLe'); // male checkbox
+const f = document.getElementById('feMale'); // female checkbox
+const teL = document.getElementById('telNum'); // telephone input
+const dataForm = document.getElementById("dataForm"); // form
 
 pageText.innerText = "Please complete the form below to get started...";
+// Hello Santa Claus, today we will be collating information that you provide together with some very clever AI generated content for us to determine the perfect Christmas present for you. Please complete the form below to get started...
 
 // const inp1 = document.getElementById();
 // const inp2 = document.getElementById();
@@ -37,28 +42,26 @@ const nFemale = [
 ];
 
 // set min / max values for age input
-const minMax = [
-  { min: 0, max: 15 },
-  { min: 15, max: 35 },
-  { min: 35, max: 55 },
-  { min: 55, max: 75 },
-  { min: 75, max: 95 }
-];
+// const minMax = [
+//   { min: 0, max: 15 },
+//   { min: 15, max: 35 },
+//   { min: 35, max: 55 },
+//   { min: 55, max: 75 },
+//   { min: 75, max: 95 }
+// ];
 
-const mM = minMax[rNum(minMax.length)];
+// favourite colours
+const coLours = ["light blue", "pink", "green", "purple", "red", "black", "brown", "white", "light green", "orange", "silver", "blue", "yellow", "beige"];
+const favCol = coLours[rNum(coLours.length)];
+// console.log(favCol);
+// form name - favColour
+
+// const mM = minMax[rNum(minMax.length)];
+const aGe = (rNum(100)) + 1;
+// console.log(aGe);
 // howOld.setAttribute("min", mM.min);
 // howOld.setAttribute("max", mM.max);
 
-
-// TODO: GET GENDER FROM FORM
-// switch (gen) {
-//   case male: const uSer = nMale[rNum(nMale.length)];
-//     break;
-//   case female: const uSer = nFemale[rNum(nFemale.length)];
-//     break;
-//   default: const uSer = nFemale[rNum(nFemale.length)];
-// }
-// console.log(uSer.name);
 
 //  NOT CURRENTLY USED ===============================================
 // let otherPerson = "Father Christmas"; // create random name from array
@@ -77,28 +80,88 @@ const mM = minMax[rNum(minMax.length)];
 //   }
 // }
 // myFunction();
+// END ===============================================================
 
+
+
+// todo ==============================================================
+
+// store dataObj in local storage
+
+// create pop up html.... copy from clicker assignment
+
+// CREATE HURRY UP POP-UP
 // popup - 'please submit your information' 1 second after first input changes
 // const hurryUp = setTimeout(popHurry, 1000);
 // function popHurry() {
 // }
+
+// You will be pleased to know, you have passed our initial checks and you are now able to proceed and find your perfect Christmas present. A few more steps are now required. Add 'continue' button. 
+
+// CREATE FAVOURITE MOVIE 
 // from the information you have submitted and with the clever use of generative AI, we can determine that -
-// your favourite Christmas movie is - the King's speech, Die Hard 2, Indiana Jones and the Temple of Doom, Mary Poppins, 
-//
-function removeEl(el) { // remove element
-  setTimeout(() => el.remove(), 3000);
+// your favourite Christmas movie is - the King's speech, Die Hard 2, Indiana Jones and the Temple of Doom, Mary Poppins
+
+// CREATE FAVOURITE CHRISTMAS PRESENT
+// your favourite Christmas present is - 
+
+// ENTER TELEPHONE NUMBER TO CONFIRM  PERSONAL DETAILS
+// please enter your telephone number, change as entered, auto submit? fake submit? 999, 118 118, 111, 1471, 123, 101
+// submit(); reset();
+
+// todo end
+
+
+function removeEl(el, func) { // delay remove element
+  setTimeout(() => el.remove(), 5000);
+  // run callback if exists
+  if (func) { func(); }
 }
 
-dataForm.addEventListener("submit", (e) => { // 'e' represents the 'submit' event
-  e.preventDefault(); // prevents data from showing in url as query string 
-  const formData = new FormData(dataForm); // FormData provides a way to construct a set of key/value pairs from data inputted
-  const dataObj = Object.fromEntries(formData); // create object from inputted data as key/value pairs
-  console.log(dataObj); // Check in your console to see what this variable looks like
-  // const pEL = document.createElement("p");
-  // pEL.innerHTML = `user name - ${dataObj.userName}<br>user location - ${dataObj.userLocation}<br>user hobby - ${dataObj.userHobby}`;
-  // mainEL[0].appendChild(pEL);
+m.addEventListener("input", () => { f.checked = false; });
+f.addEventListener("input", () => { m.checked = false; });
 
-  pageText.innerText = "Thank you for submitting your data.";
-  removeEl(dataForm);
+dataForm.addEventListener("submit", (e) => {
+  e.preventDefault(); // prevent data from showing in url
+  const formData = new FormData(dataForm);
+  const dataObj = Object.fromEntries(formData);
+
+  // console.log(dataObj);
+
+  // GET GENDER FROM FORM, SELECT APPROPRIATE NAME
+  let uSer;
+  switch ("on") {
+    case dataObj.maLe:
+      uSer = nMale[rNum(nMale.length)];
+      break;
+    case dataObj.feMale:
+      uSer = nFemale[rNum(nFemale.length)];
+      break;
+    default: uSer = nFemale[rNum(nFemale.length)];
+  }
+
+  // update form values
+  userName.value = uSer.name;
+  howOld.value = aGe;
+  favColour.value = favCol;
+
+  // update object values
+  dataObj.userName = uSer.name;
+  dataObj.howOld = aGe;
+  dataObj.favColour = favCol;
+
+  // console.log(dataObj);
+
+  pageText.innerText = `Thank you for submitting your data, ${uSer.name}.`;
+  // delay, run another function after removing form??
+  // re-use function for other elements' removal
+  // removeEl(dataForm, () => setTimeout(() => { console.log("run new function") }, 6000));
+  removeEl(dataForm, null);
 });
 
+// todo: get telephone number after form submission, add number to form Object? Get from local storage
+// teL.addEventListener("click", () => {
+//   teL.value = "999";
+//   const timer = setInterval(() => { teL.value = ""; alert("Thanks"); clearInterval(timer);}, 5000);
+//   // popup - Thank you. Your telephone number has been submitted, we may use your number to contact you in the near future. We need this to confirm your personal information.
+// });
