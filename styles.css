@@ -3,13 +3,16 @@
     padding: 0;
     box-sizing: border-box;
     line-height: 1;
+    cursor: default;
 }
 
-html, input {
+html,
+input {
     font-family: 'Courier New', Courier, monospace;
 }
 
-img, input {
+img,
+input {
     display: block;
 }
 
@@ -17,12 +20,16 @@ body {
     font-size: 100%;
 }
 
+a, button, #close {
+    cursor: pointer;
+}
+
 header {
     padding: 5%;
 }
 
 h1 {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 350%;
     font-weight: 100;
     letter-spacing: 6px;
@@ -32,7 +39,11 @@ main {
     padding: 2% 10% 2% 10%;
 }
 
-header, p, form, input, footer {
+header,
+p,
+form,
+input,
+footer {
     text-align: center;
 }
 
@@ -65,12 +76,79 @@ button {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* ====== CUSTOM POP-UP CSS ====== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#popup {
+    animation-name: fadeIn;
+    animation-duration: 1s;
+}
+
+#popup {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: honeydew;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2em;
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    left: 2%;
+    bottom: 2%;
+    border-radius: 20px;
+    z-index: 20;
+}
+
+.scrollBox {
+    margin: 2em 0;
+    padding: 1.5em;
+    overflow: scroll;
+}
+
+.scrollBox p:first-of-type {
+    margin-bottom: 2em;
+}
+
+#close {
+    font-size: 40px;
+    color: #333333;
+}
+
+@media screen and (min-width:900px) {
+
+    /* header {
+        padding: 3em;
+    }
+
+    h1 {
+        padding: 2em 2% 2.5em 2%;
+    } */
+
+    #popup {
+        top: 10%;
+        right: 10%;
+        left: 10%;
+        bottom: 10%;
+    }
 }
