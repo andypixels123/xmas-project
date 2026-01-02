@@ -148,12 +148,17 @@ function funcThree() {
   pageText.innerText = `${userData.userName}, if you are not completely happy with the data you have submitted you may now amend your details, or get your perfect present!`;
   // add telephone number js, We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
   // const teL = document.getElementById('telNum'); // telephone input
-  const amendBtn = createElem("div", "btn", "c", "", "amend", "", "", "");
-  const giftBtn = createElem("div", "btn", "c", "", "present", "", "", "");
+  const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
+  const giftBtn = createElem("div", "btn", "c", "", "Present", "", "", "");
   amendBtn.title = "amend personal details";
   giftBtn.title = "perfect present idea";
   giftBtn.addEventListener("click", () => {
     getGift(userData.howOld, userData.userGen);
+  });
+  amendBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("stats");
+    location.reload();
   });
 }
 
@@ -168,9 +173,14 @@ if (str) {
 
   // todo: local storage exists, SAY HI AND LIST STATS FROM LAST VISIT, add 'amend' details button?
   pageText.innerText = `Welcome back!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.favColour}\r\nYou are ${userData.howOld} years of age\r\nYour gender is ${userData.userGen}\r\n\nFrom the information you provided and our clever use of generative AI, we found your perfect Christmas present:`;
-  createElem("p","bold","c","",`${userData.giFt}`,"","","");
-  const amendBtn = createElem("div", "btn", "c", "", "amend", "", "", "");
+  createElem("p", "bold", "c", "", `${userData.giFt}`, "", "", "");
+  const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
   amendBtn.title = "amend personal details";
+  amendBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("stats");
+    location.reload();
+  });
 
 } else {
   // local storage empty -> create form
@@ -232,8 +242,9 @@ if (str) {
     userData.userName = uSer.name;
     userData.userGen = gEnder;
     storeValues("stats", userData);
-    removeEl(dataForm, () => setTimeout(formTwo, 5100));
+
     // delay, optionally run another function after removing element(s)
+    removeEl(dataForm, () => setTimeout(formTwo, 5100));
     // removeEl(dataForm, null); // remove element, no callback
     // removeEl(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
     // also removes event handlers
