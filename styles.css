@@ -17,6 +17,7 @@ input {
 }
 
 body {
+    margin: 0 10px 0 10px;
     font-size: 100%;
 }
 
@@ -36,11 +37,12 @@ h1 {
 }
 
 main {
-    padding: 2% 10% 2% 10%;
+    padding: 2em 10% 5em 10%;
 }
 
 header,
 p,
+h2,
 form,
 input,
 footer {
@@ -50,6 +52,12 @@ footer {
 p {
     margin: 0 0 20px 0;
     line-height: 165%;
+}
+
+p.bold {
+    font-size: 200%;
+    font-weight: bold;
+    line-height: 300%;
 }
 
 form {
@@ -151,14 +159,6 @@ input[type=number] {
 }
 
 @media screen and (min-width:900px) {
-
-    /* header {
-        padding: 3em;
-    }
-
-    h1 {
-        padding: 2em 2% 2.5em 2%;
-    } */
 
     #popup {
         top: 10%;

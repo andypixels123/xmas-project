@@ -1,9 +1,9 @@
 const str = localStorage.getItem("stats") ? localStorage.getItem("stats") : null;
 const pageText = document.getElementById("pageText");
 let userData = {};
-const coLours = ["blue", "pink", "green", "purple", "red", "black", "brown", "white", "gold", "orange", "silver", "beige", "yellow"];
+const coLours = ["blue", "pink", "green", "purple", "red", "black", "brown", "white", "gold", "orange", "silver", "beige", "yellow",];
 const favCol = coLours[rNum(coLours.length)];
-const aGe = (rNum(100)) + 2;
+const aGe = rNum(100) + 2;
 
 const nMale = [
   { name: "Noel" },
@@ -13,7 +13,7 @@ const nMale = [
   { name: "Rudolph" },
   { name: "Ebenezer Scrooge" },
   { name: "Buddy the Elf" },
-  { name: "Santa Claus" }
+  { name: "Santa Claus" },
 ];
 
 const nFemale = [
@@ -22,7 +22,7 @@ const nFemale = [
   { name: "Holly" },
   { name: "Angel" },
   { name: "Noelle" },
-  { name: "Ivy" }
+  { name: "Ivy" },
 ];
 
 function getGift(age, gen) {
@@ -34,15 +34,15 @@ function getGift(age, gen) {
     ["pet penguin", "air fryer", "cutlery set", "National Trust membership", "real polar bear", "pet lion", "log cabin", "cement mixer", "lawn mower", "scented candle"],
     ["SpongeBob SquarePants", "toy ferrari", "wordsearch book", "jigsaw puzzle", "Scrabble Set", "calendar", "pen set", "can of oil", "drawing pad", "hair straightener"],
     ["broom", "pogo stick", "pack of Paracetamol", "Thomas the Tank Engine", "colouring book", "crossword puzzle book", "bottle of diet pills", "Beano Annual", "Guinness Book of Records", "Space Hopper"],
-    ["colouring book", "action man", "pair of roller blades", "pair of clogs", "mini skirt", "plastic sheep", "personalised mug", "gym membership", "Lego set", "Play-Doh set"]
+    ["colouring book", "action man", "pair of roller blades", "pair of clogs", "mini skirt", "plastic sheep", "personalised mug", "gym membership", "Lego set", "Play-Doh set"],
   ];
   const fPres = [
     ["Prosecco", "bottle of Gin", "hairdryer", "spa day", "comb", "food mixer", "manicure set", "bottle of Chanel No.5", "tin of biscuits", "tub of Quality Street"],
-    ["set of hair curlers", "flower boquet", "greenhouse", "chopping board", "socket set", "bottle of diet pills", "gym membership", "flower pot", "Slinky", "Nintendo Switch"],
+    ["set of hair curlers", "flower bouquet", "greenhouse", "chopping board", "socket set", "bottle of diet pills", "gym membership", "flower pot", "Slinky", "Nintendo Switch"],
     ["Dyson Vacuum Cleaner", "baking tray", "bricklaying course", "screwdriver set", "personalised toothbrush", "pair of novelty socks", "snack hamper", "bicycle tyre", "Cluedo Board Game", "portable power bank"],
     ["set of bowls", "cricket bat", "Furby", "Star Wars Power Crystal Lightsaber", "Hasbro Frustration Board Game", "Scalextric Set", "train set", "Airfix Kit", "Evel Knievel Stunt Set", "Stretch Armstrong"],
     ["lipstick", "perm", "blue rinse", "self-help book", "radio-controlled car", "build-a-bear workshop", "Rubiks Cube", "Monopoly Game", "Sylvanian Families playset", "Spirograph Set"],
-    ["bicycle", "Barbie Doll", "pet hamster", "set of novelty underwear", "Fart Box", "Christmas jumper", "tricycle", "football", "Nintendo Game Boy", "Jenga Game"]
+    ["bicycle", "Barbie Doll", "pet hamster", "set of novelty underwear", "Fart Box", "Christmas jumper", "tricycle", "football", "Nintendo Game Boy", "Jenga Game"],
   ];
 
   switch (true) {
@@ -63,7 +63,6 @@ function getGift(age, gen) {
       break;
     case age > 49:
       i = 5;
-      break;
   }
 
   if (gen === "male") {
@@ -81,14 +80,13 @@ function createElem(e, aN, aT, pI, iTx, typ, f, req) {
   let par;
   const el = document.createElement(e);
   const secTion = document.getElementsByTagName("section");
-  if (pI) {
-    par = document.getElementById(pI);
-  } else {
-    par = secTion[((secTion.length) - 1)];
-  }
+  if (pI) { par = document.getElementById(pI); } else { par = secTion[secTion.length - 1]; }
   if (aN) {
     if (aT == "c") { el.className = aN; } else { el.id = aN; }
-    if (e === "input") { el.name = aN; if (req) { el.required = true; } }
+    if (e === "input") {
+      el.name = aN;
+      if (req) { el.required = true; }
+    }
   }
   if (iTx) { el.innerText = iTx; }
   if (typ) { el.type = typ; }
@@ -113,15 +111,16 @@ function removeEl(el, func) {
 }
 
 function formTwo() {
+  // e, aN, aT, pI, iTx, type, for, req
   pageText.innerText = `Hello, ${userData.userName}.\r\n\nThank you for submitting your data.\r\n\nToday we will be collating information that you provide together with some very clever AI generated content for us to determine the perfect Christmas present for you.`;
   const group = createElem("span", "group", "", "", "", "", "", "");
-  createElem("p", "p1", "", "group", "You will be pleased to know, you have passed our initial checks and you are now able to proceed and find your perfect Christmas present.", "", "", "");
-  createElem("p", "p2", "", "group", "A few more steps are required....", "", "", "");
-  createElem("form", "dataForm", "", "group", "", "", "", "");
+  createElem("p", "", "", "group", "You will be pleased to know, you have passed our initial checks and you are now able to proceed and find your perfect Christmas present.", "", "", "");
+  createElem("p", "", "", "group", "A few more steps are required....", "", "", "");
+  const dataForm = createElem("form", "dataForm", "", "group", "", "", "", "");
   createElem("label", "", "", "dataForm", "What is your favourite colour?", "", "favColour", "");
-  createElem("input", "favColour", "", "dataForm", "", "text", "", "y");
+  const favColour = createElem("input", "favColour", "", "dataForm", "", "text", "", "y");
   createElem("label", "", "", "dataForm", "How old are you?", "", "howOld", "");
-  createElem("input", "howOld", "", "dataForm", "", "number", "", "");
+  const howOld = createElem("input", "howOld", "", "dataForm", "", "number", "", "");
   createElem("button", "", "", "dataForm", "submit", "submit", "", "");
 
   const butt = document.getElementsByTagName("button");
@@ -141,14 +140,14 @@ function formTwo() {
     userData.favColour = favCol;
     storeValues("stats", userData);
     removeEl(group, () => setTimeout(funcThree, 5100));
-
   });
 }
 
 function funcThree() {
+  // e, aN, aT, pI, iTx, type, for, req
   pageText.innerText = `${userData.userName}, if you are not completely happy with the data you have submitted you may now amend your details, or get your perfect present!`;
-  // add telephone number js, We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is - 
-  // const teL = document.getElementById('telNum'); // telephone input 
+  // add telephone number js, We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
+  // const teL = document.getElementById('telNum'); // telephone input
   const amendBtn = createElem("div", "btn", "c", "", "amend", "", "", "");
   const giftBtn = createElem("div", "btn", "c", "", "present", "", "", "");
   amendBtn.title = "amend personal details";
@@ -158,7 +157,8 @@ function funcThree() {
   });
 }
 
-if (str) { // stats exist in local storage
+if (str) {
+  // stats exist in local storage
   try {
     userData = JSON.parse(str);
     console.log(userData);
@@ -167,11 +167,14 @@ if (str) { // stats exist in local storage
   }
 
   // todo: local storage exists, SAY HI AND LIST STATS FROM LAST VISIT, add 'amend' details button?
-  pageText.innerText = `Welcome back!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.favColour}\r\nYou are ${userData.howOld} years of age\r\nYour gender is ${userData.userGen}\r\n\nFrom the information you provided and our clever use of generative AI, we concluded that your perfect Christmas present was a ${userData.giFt}`;
+  pageText.innerText = `Welcome back!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.favColour}\r\nYou are ${userData.howOld} years of age\r\nYour gender is ${userData.userGen}\r\n\nFrom the information you provided and our clever use of generative AI, we found your perfect Christmas present:`;
+  createElem("p","bold","c","",`${userData.giFt}`,"","","");
+  const amendBtn = createElem("div", "btn", "c", "", "amend", "", "", "");
+  amendBtn.title = "amend personal details";
 
-
-} else { // local storage empty -> create form
-  // elememt, attr.name, parent id, attr.type, inner text, type, for, required
+} else {
+  // local storage empty -> create form
+  // e, aN, aT, pI, iTx, type, for, req
   const dataForm = createElem("form", "dataForm", "", "", "", "", "", "");
   createElem("label", "", "", "dataForm", "What is your name?", "", "userName", "");
   const userName = createElem("input", "userName", "", "dataForm", "", "text", "", "y");
@@ -184,8 +187,20 @@ if (str) { // stats exist in local storage
   createElem("button", "", "", "dataForm", "submit", "submit", "", "");
   const butt = document.getElementsByTagName("button");
 
-  m.addEventListener("input", () => { f.checked = false; });
-  f.addEventListener("input", () => { m.checked = false; });
+  userName.addEventListener("input", () => {
+    userName.value = "Mary";
+    setTimeout(() => {
+      alert("Thanks, your name was submitted");
+      userName.value = "Santa";
+    }, 5000);
+  });
+
+  m.addEventListener("input", () => {
+    f.checked = false;
+  });
+  f.addEventListener("input", () => {
+    m.checked = false;
+  });
   pageText.innerText = "Please complete the form below to get started...";
 
   dataForm.addEventListener("submit", (e) => {
@@ -217,18 +232,16 @@ if (str) { // stats exist in local storage
     userData.userName = uSer.name;
     userData.userGen = gEnder;
     storeValues("stats", userData);
-
-    // delay, optionally run another function after removing element(s)
-    // removeEl(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
-    // removeEl(dataForm, null); // remove element, no callback
-    // removeEl() also removes event handlers
     removeEl(dataForm, () => setTimeout(formTwo, 5100));
-
+    // delay, optionally run another function after removing element(s)
+    // removeEl(dataForm, null); // remove element, no callback
+    // removeEl(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
+    // also removes event handlers
   });
 }
 
-
-
+// todo: SHOW FAVOURITE CHRISTMAS PRESENT ON PAGE, IN POP-UP??
+// todo: add sound, fanfare?
 
 // todo: CREATE ANNOYING 'HURRY UP' POP-UPS or Alerts with setInterval()?
 // popup - 'please submit your information' 1 second after first input changes
@@ -251,9 +264,6 @@ if (str) { // stats exist in local storage
 // todo: CREATE FAVOURITE MOVIE?
 // from the information you have submitted and with the clever use of generative AI, we can determine that -
 // your favourite Christmas movie is - the King's speech, Die Hard 2, Indiana Jones and the Temple of Doom, Mary Poppins
-
-// todo: CREATE FAVOURITE CHRISTMAS PRESENT
-// your favourite Christmas present is -
 
 // todo: CUSTOM POPUP BOX, use createElem() for this!
 // play.addEventListener("click", () => {
