@@ -1,11 +1,11 @@
-const str = localStorage.getItem("stats") ? localStorage.getItem("stats") : null;
+const savedData = localStorage.getItem("stats") ? localStorage.getItem("stats") : null;
 const pageText = document.getElementById("pageText");
 let userData = {};
-const coLours = ["blue", "pink", "green", "purple", "red", "black", "brown", "white", "gold", "orange", "silver", "beige", "yellow",];
-const favCol = coLours[rNum(coLours.length)];
-const aGe = rNum(100) + 2;
+const colours = ["blue", "pink", "green", "purple", "red", "black", "brown", "white", "gold", "orange", "silver", "beige", "yellow",];
+const randomColour = colours[rNum(colours.length)];
+const randomAge = rNum(100) + 2;
 
-const nMale = [
+const maleNames = [
   { name: "Noel" },
   { name: "Joseph" },
   { name: "Gabriel" },
@@ -16,7 +16,7 @@ const nMale = [
   { name: "Santa Claus" },
 ];
 
-const nFemale = [
+const femaleNames = [
   { name: "Mary" },
   { name: "Carol Singer" },
   { name: "Holly" },
@@ -25,10 +25,10 @@ const nFemale = [
   { name: "Ivy" },
 ];
 
-function getGift(age, gen) {
+function getGift(age, gender) {
   // presents ages 2-5, 6-12, 13-20, 21-35, 36-50, 50+
-  let i, preSent;
-  const mPres = [
+  let i, gift;
+  const maleGifts = [
     ["Heavy Goods Vehicle", "VW Beetle", "shovel", "pet baboon", "uni-cycle", "pair of clown shoes", "spanner", "driving experience", "pipe and tobacco", "punch ball"],
     ["bottle", "horror dvd", "walking stick", "pet reindeer", "bottle of whiskey", "flying Lesson", "bottle opener", "tea pot", "pair of walking boots", "hip flask"],
     ["pet penguin", "air fryer", "cutlery set", "National Trust membership", "real polar bear", "pet lion", "log cabin", "cement mixer", "lawn mower", "scented candle"],
@@ -36,7 +36,7 @@ function getGift(age, gen) {
     ["broom", "pogo stick", "pack of Paracetamol", "Thomas the Tank Engine", "colouring book", "crossword puzzle book", "bottle of diet pills", "Beano Annual", "Guinness Book of Records", "Space Hopper"],
     ["colouring book", "action man", "pair of roller blades", "pair of clogs", "mini skirt", "plastic sheep", "personalised mug", "gym membership", "Lego set", "Play-Doh set"],
   ];
-  const fPres = [
+  const femaleGifts = [
     ["Prosecco", "bottle of Gin", "hairdryer", "spa day", "comb", "food mixer", "manicure set", "bottle of Chanel No.5", "tin of biscuits", "tub of Quality Street"],
     ["set of hair curlers", "flower bouquet", "greenhouse", "chopping board", "socket set", "bottle of diet pills", "gym membership", "flower pot", "Slinky", "Nintendo Switch"],
     ["Dyson Vacuum Cleaner", "baking tray", "bricklaying course", "screwdriver set", "personalised toothbrush", "pair of novelty socks", "snack hamper", "bicycle tyre", "Cluedo Board Game", "portable power bank"],
@@ -65,14 +65,14 @@ function getGift(age, gen) {
       i = 5;
   }
 
-  if (gen === "male") {
-    preSent = mPres[i][rNum(mPres[i].length)];
+  if (gender === "male") {
+    gift = maleGifts[i][rNum(maleGifts[i].length)];
   }
 
-  if (gen === "female" || gen === "unconfirmed") {
-    preSent = fPres[i][rNum(fPres[i].length)];
+  if (gender === "female" || gender === "unconfirmed") {
+    gift = femaleGifts[i][rNum(femaleGifts[i].length)];
   }
-  userData.giFt = preSent;
+  userData.userGift = gift;
   storeValues("stats", userData);
 }
 
@@ -95,51 +95,51 @@ function createElem(e, aN, aT, pI, iTx, typ, f, req) {
   return el;
 }
 
-function storeValues(K, val) {
-  const V = JSON.stringify(val);
-  localStorage.setItem(K, V);
+function storeValues(key, value) {
+  const storageString = JSON.stringify(value);
+  localStorage.setItem(key, storageString);
 }
 
-function rNum(X) {
-  return Math.floor(Math.random() * X);
+function rNum(factor) {
+  return Math.floor(Math.random() * factor);
 }
 
-function removeEl(el, func) {
-  setTimeout(() => el.remove(), 5000);
+function removeElem(element, callBack) {
+  setTimeout(() => element.remove(), 5000);
   // must delay callback >5000ms
-  if (func) { func(); }
+  if (callBack) { callBack(); }
 }
 
 function formTwo() {
   // e, aN, aT, pI, iTx, type, for, req
   pageText.innerText = `Hello, ${userData.userName}.\r\n\nThank you for submitting your data.\r\n\nToday we will be collating information that you provide together with some very clever AI generated content for us to determine the perfect Christmas present for you.`;
-  const group = createElem("span", "group", "", "", "", "", "", "");
-  createElem("p", "", "", "group", "You will be pleased to know, you have passed our initial checks and you are now able to proceed and find your perfect Christmas present.", "", "", "");
-  createElem("p", "", "", "group", "A few more steps are required....", "", "", "");
-  const dataForm = createElem("form", "dataForm", "", "group", "", "", "", "");
-  createElem("label", "", "", "dataForm", "What is your favourite colour?", "", "favColour", "");
-  const favColour = createElem("input", "favColour", "", "dataForm", "", "text", "", "y");
-  createElem("label", "", "", "dataForm", "How old are you?", "", "howOld", "");
-  const howOld = createElem("input", "howOld", "", "dataForm", "", "number", "", "");
+  const elemGroup = createElem("span", "elemGroup", "", "", "", "", "", "");
+  createElem("p", "", "", "elemGroup", "You will be pleased to know, you have passed our initial checks and you are now able to proceed and find your perfect Christmas present.", "", "", "");
+  createElem("p", "", "", "elemGroup", "A few more steps are required....", "", "", "");
+  const dataForm = createElem("form", "dataForm", "", "elemGroup", "", "", "", "");
+  createElem("label", "", "", "dataForm", "What is your favourite colour?", "", "colourInput", "");
+  const colourInput = createElem("input", "colourInput", "", "dataForm", "", "text", "", "y");
+  createElem("label", "", "", "dataForm", "How old are you?", "", "userAge", "");
+  const userAge = createElem("input", "userAge", "", "dataForm", "", "number", "", "");
   createElem("button", "", "", "dataForm", "submit", "submit", "", "");
 
-  const butt = document.getElementsByTagName("button");
+  const buttons = document.getElementsByTagName("button");
 
   dataForm.addEventListener("submit", (e) => {
-    butt[0].disabled = true;
+    buttons[0].disabled = true;
     e.preventDefault(); // prevent data from showing in url
     const formData = new FormData(dataForm);
     const dataObj = Object.fromEntries(formData);
 
     // change form values
-    howOld.value = aGe;
-    favColour.value = favCol;
+    userAge.value = randomAge;
+    colourInput.value = randomColour;
 
     // store user data
-    userData.howOld = aGe;
-    userData.favColour = favCol;
+    userData.userAge = randomAge;
+    userData.userColour = randomColour;
     storeValues("stats", userData);
-    removeEl(group, () => setTimeout(funcThree, 5100));
+    removeElem(elemGroup, () => setTimeout(funcThree, 5100));
   });
 }
 
@@ -149,35 +149,32 @@ function funcThree() {
   // add telephone number js, We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
   // const teL = document.getElementById('telNum'); // telephone input
   const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
-  const giftBtn = createElem("div", "btn", "c", "", "Present", "", "", "");
   amendBtn.title = "amend personal details";
+  const giftBtn = createElem("div", "btn", "c", "", "Present", "", "", "");
   giftBtn.title = "perfect present idea";
-  giftBtn.addEventListener("click", () => {
-    getGift(userData.howOld, userData.userGen);
-  });
-  amendBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+  amendBtn.addEventListener("click", () => {
     localStorage.removeItem("stats");
     location.reload();
   });
+  giftBtn.addEventListener("click", () => {
+    getGift(userData.userAge, userData.userGender);
+  });
 }
 
-if (str) {
-  // stats exist in local storage
+if (savedData) {
+  // data found in local storage
   try {
-    userData = JSON.parse(str);
+    userData = JSON.parse(savedData);
     console.log(userData);
   } catch (err) {
     console.error(`local storage error: ${err}`);
   }
 
-  // todo: local storage exists, SAY HI AND LIST STATS FROM LAST VISIT, add 'amend' details button?
-  pageText.innerText = `Welcome back!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.favColour}\r\nYou are ${userData.howOld} years of age\r\nYour gender is ${userData.userGen}\r\n\nFrom the information you provided and our clever use of generative AI, we found your perfect Christmas present:`;
-  createElem("p", "bold", "c", "", `${userData.giFt}`, "", "", "");
+  pageText.innerText = `Welcome back!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.userColour}\r\nYou are ${userData.userAge} years of age\r\nYour gender is ${userData.userGender}\r\n\nWith the information you have provided and our clever use of generative AI, we found your perfect Christmas present:`;
+  createElem("p", "bold", "c", "", `${userData.userGift}`, "", "", "");
   const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
   amendBtn.title = "amend personal details";
-  amendBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+  amendBtn.addEventListener("click", () => {
     localStorage.removeItem("stats");
     location.reload();
   });
@@ -188,33 +185,36 @@ if (str) {
   const dataForm = createElem("form", "dataForm", "", "", "", "", "", "");
   createElem("label", "", "", "dataForm", "What is your name?", "", "userName", "");
   const userName = createElem("input", "userName", "", "dataForm", "", "text", "", "y");
-  const chEck = createElem("p", "", "", "dataForm", "", "", "", "");
-  chEck.innerText = "Please check one option\r\n( we need this to confirm your name )";
-  createElem("label", "", "", "dataForm", "male", "", "maLe", "");
-  const m = createElem("input", "maLe", "", "dataForm", "", "checkbox", "", "");
-  createElem("label", "", "", "dataForm", "female", "", "feMaLe", "");
-  const f = createElem("input", "feMale", "", "dataForm", "", "checkbox", "", "");
+  const checkboxP = createElem("p", "", "", "dataForm", "", "", "", "");
+  checkboxP.innerText = "Please check one option\r\n( we need this to confirm your name )";
+  createElem("label", "", "", "dataForm", "male", "", "inputMale", "");
+  const maleCheckbox = createElem("input", "inputMale", "", "dataForm", "", "checkbox", "", "");
+  createElem("label", "", "", "dataForm", "female", "", "inputFemale", "");
+  const femaleCheckbox = createElem("input", "inputFemale", "", "dataForm", "", "checkbox", "", "");
   createElem("button", "", "", "dataForm", "submit", "submit", "", "");
-  const butt = document.getElementsByTagName("button");
+  const buttons = document.getElementsByTagName("button");
 
   userName.addEventListener("input", () => {
+    // todo: add random name below =============================
     userName.value = "Mary";
     setTimeout(() => {
+      // annoying alert box
       alert("Thanks, your name was submitted");
+      // todo: add random name below =============================
       userName.value = "Santa";
     }, 5000);
   });
 
-  m.addEventListener("input", () => {
-    f.checked = false;
+  maleCheckbox.addEventListener("input", () => {
+    femaleCheckbox.checked = false;
   });
-  f.addEventListener("input", () => {
-    m.checked = false;
+  femaleCheckbox.addEventListener("input", () => {
+    maleCheckbox.checked = false;
   });
   pageText.innerText = "Please complete the form below to get started...";
 
   dataForm.addEventListener("submit", (e) => {
-    butt[0].disabled = true;
+    buttons[0].disabled = true;
     e.preventDefault(); // prevent data from showing in url
     const formData = new FormData(dataForm);
     const dataObj = Object.fromEntries(formData);
@@ -222,16 +222,16 @@ if (str) {
     // get gender from form, select name from array
     let uSer, gEnder;
     switch ("on") {
-      case dataObj.maLe:
-        uSer = nMale[rNum(nMale.length)];
+      case dataObj.inputMale:
+        uSer = maleNames[rNum(maleNames.length)];
         gEnder = "male";
         break;
-      case dataObj.feMale:
-        uSer = nFemale[rNum(nFemale.length)];
+      case dataObj.inputFemale:
+        uSer = femaleNames[rNum(femaleNames.length)];
         gEnder = "female";
         break;
       default:
-        uSer = nFemale[rNum(nFemale.length)];
+        uSer = femaleNames[rNum(femaleNames.length)];
         gEnder = "unconfirmed";
     }
 
@@ -240,13 +240,13 @@ if (str) {
 
     // store user data
     userData.userName = uSer.name;
-    userData.userGen = gEnder;
+    userData.userGender = gEnder;
     storeValues("stats", userData);
 
-    // delay, optionally run another function after removing element(s)
-    removeEl(dataForm, () => setTimeout(formTwo, 5100));
-    // removeEl(dataForm, null); // remove element, no callback
-    // removeEl(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
+    // delay, optionally run another function after removing element
+    removeElem(dataForm, () => setTimeout(formTwo, 5100));
+    // removeElem(dataForm, null); // remove element, no callback
+    // removeElem(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
     // also removes event handlers
   });
 }
