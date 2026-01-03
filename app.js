@@ -1,29 +1,19 @@
 const savedData = localStorage.getItem("stats") ? localStorage.getItem("stats") : null;
 const pageText = document.getElementById("pageText");
 let userData = {};
+let autoName;
 const colours = ["blue", "pink", "green", "purple", "red", "black", "brown", "white", "gold", "orange", "silver", "beige", "yellow",];
+const userNames = [
+  ["Noel", "Joseph", "Gabriel", "Jesus", "Rudolph", "Ebenezer", "Buddy", "Santa"],
+  ["Mary", "Carol", "Holly", "Angel", "Noelle", "Ivy", "Gabrielle"]
+];
+
+function rNum(factor) {
+  return Math.floor(Math.random() * factor);
+}
+
 const randomColour = colours[rNum(colours.length)];
-const randomAge = rNum(100) + 2;
-
-const maleNames = [
-  { name: "Noel" },
-  { name: "Joseph" },
-  { name: "Gabriel" },
-  { name: "Jesus" },
-  { name: "Rudolph" },
-  { name: "Ebenezer Scrooge" },
-  { name: "Buddy the Elf" },
-  { name: "Santa Claus" },
-];
-
-const femaleNames = [
-  { name: "Mary" },
-  { name: "Carol Singer" },
-  { name: "Holly" },
-  { name: "Angel" },
-  { name: "Noelle" },
-  { name: "Ivy" },
-];
+const randomAge = rNum(100) + 1;
 
 function getGift(age, gender) {
   // presents ages 2-5, 6-12, 13-20, 21-35, 36-50, 50+
@@ -76,6 +66,7 @@ function getGift(age, gender) {
   storeValues("stats", userData);
 }
 
+// todo: make params semantic?
 function createElem(e, aN, aT, pI, iTx, typ, f, req) {
   let par;
   const el = document.createElement(e);
@@ -100,10 +91,6 @@ function storeValues(key, value) {
   localStorage.setItem(key, storageString);
 }
 
-function rNum(factor) {
-  return Math.floor(Math.random() * factor);
-}
-
 function removeElem(element, callBack) {
   setTimeout(() => element.remove(), 5000);
   // must delay callback >5000ms
@@ -120,7 +107,7 @@ function formTwo() {
   createElem("label", "", "", "dataForm", "What is your favourite colour?", "", "colourInput", "");
   const colourInput = createElem("input", "colourInput", "", "dataForm", "", "text", "", "y");
   createElem("label", "", "", "dataForm", "How old are you?", "", "userAge", "");
-  const userAge = createElem("input", "userAge", "", "dataForm", "", "number", "", "");
+  const userInput = createElem("input", "userAge", "", "dataForm", "", "number", "", "");
   createElem("button", "", "", "dataForm", "submit", "submit", "", "");
 
   const buttons = document.getElementsByTagName("button");
@@ -132,21 +119,21 @@ function formTwo() {
     const dataObj = Object.fromEntries(formData);
 
     // change form values
-    userAge.value = randomAge;
+    userInput.value = randomAge;
     colourInput.value = randomColour;
 
     // store user data
     userData.userAge = randomAge;
     userData.userColour = randomColour;
     storeValues("stats", userData);
-    removeElem(elemGroup, () => setTimeout(funcThree, 5100));
+    removeElem(elemGroup, () => setTimeout(createGift, 5100));
   });
 }
 
-function funcThree() {
+function createGift() {
   // e, aN, aT, pI, iTx, type, for, req
   pageText.innerText = `${userData.userName}, if you are not completely happy with the data you have submitted you may now amend your details, or get your perfect present!`;
-  // add telephone number js, We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
+  // add telephone number js? We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
   // const teL = document.getElementById('telNum'); // telephone input
   const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
   amendBtn.title = "amend personal details";
@@ -158,6 +145,7 @@ function funcThree() {
   });
   giftBtn.addEventListener("click", () => {
     getGift(userData.userAge, userData.userGender);
+    // todo: show gift on page
   });
 }
 
@@ -169,8 +157,8 @@ if (savedData) {
   } catch (err) {
     console.error(`local storage error: ${err}`);
   }
-
-  pageText.innerText = `Welcome back!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.userColour}\r\nYou are ${userData.userAge} years of age\r\nYour gender is ${userData.userGender}\r\n\nWith the information you have provided and our clever use of generative AI, we found your perfect Christmas present:`;
+  // todo: remove 'pageText' -> create <p> elements dynamically
+  pageText.innerText = `Welcome back ${userData.userName}!\r\n\nFrom your previous visit we harvested the following personal information:\r\n\nYour name is ${userData.userName}\r\nYour favourite colour is ${userData.userColour}\r\nYou are ${userData.userAge} years of age\r\nYour gender is ${userData.userGender}\r\n\nWith the information you have provided and our clever use of generative AI, we found your perfect Christmas present:`;
   createElem("p", "bold", "c", "", `${userData.userGift}`, "", "", "");
   const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
   amendBtn.title = "amend personal details";
@@ -184,7 +172,7 @@ if (savedData) {
   // e, aN, aT, pI, iTx, type, for, req
   const dataForm = createElem("form", "dataForm", "", "", "", "", "", "");
   createElem("label", "", "", "dataForm", "What is your name?", "", "userName", "");
-  const userName = createElem("input", "userName", "", "dataForm", "", "text", "", "y");
+  const userInput = createElem("input", "userName", "", "dataForm", "", "text", "", "y");
   const checkboxP = createElem("p", "", "", "dataForm", "", "", "", "");
   checkboxP.innerText = "Please check one option\r\n( we need this to confirm your name )";
   createElem("label", "", "", "dataForm", "male", "", "inputMale", "");
@@ -194,23 +182,22 @@ if (savedData) {
   createElem("button", "", "", "dataForm", "submit", "submit", "", "");
   const buttons = document.getElementsByTagName("button");
 
-  userName.addEventListener("input", () => {
-    // todo: add random name below =============================
-    userName.value = "Mary";
-    setTimeout(() => {
-      // annoying alert box
-      alert("Thanks, your name was submitted");
-      // todo: add random name below =============================
-      userName.value = "Santa";
-    }, 5000);
+  // todo: make autoname randomly male or female
+  // annoying auto-fill on name field 
+  userInput.addEventListener("input", () => {
+    let nameGroup = rNum(userNames.length);
+    autoName = userNames[nameGroup][rNum(userNames[nameGroup].length)];
+    userInput.value = autoName;
   });
 
   maleCheckbox.addEventListener("input", () => {
     femaleCheckbox.checked = false;
   });
+
   femaleCheckbox.addEventListener("input", () => {
     maleCheckbox.checked = false;
   });
+
   pageText.innerText = "Please complete the form below to get started...";
 
   dataForm.addEventListener("submit", (e) => {
@@ -219,27 +206,29 @@ if (savedData) {
     const formData = new FormData(dataForm);
     const dataObj = Object.fromEntries(formData);
 
-    // get gender from form, select name from array
+    // get gender from form
     let uSer, gEnder;
+    autoName = userInput.value;
+
     switch ("on") {
       case dataObj.inputMale:
-        uSer = maleNames[rNum(maleNames.length)];
+        uSer = autoName;
         gEnder = "male";
         break;
       case dataObj.inputFemale:
-        uSer = femaleNames[rNum(femaleNames.length)];
+        uSer = autoName;
         gEnder = "female";
         break;
       default:
-        uSer = femaleNames[rNum(femaleNames.length)];
+        uSer = autoName;
         gEnder = "unconfirmed";
     }
 
     // change form values
-    userName.value = uSer.name;
+    userInput.value = uSer;
 
     // store user data
-    userData.userName = uSer.name;
+    userData.userName = uSer;
     userData.userGender = gEnder;
     storeValues("stats", userData);
 
