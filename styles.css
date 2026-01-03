@@ -17,11 +17,15 @@ input {
 }
 
 body {
+    color: #444;
     margin: 0 10px 0 10px;
     font-size: 100%;
 }
 
-a, button, .btn, #close {
+a,
+button,
+.btn,
+#close {
     cursor: pointer;
 }
 
@@ -55,30 +59,24 @@ p {
 }
 
 p.bold {
-    font-size: 200%;
+    font-size: 225%;
     font-weight: bold;
-    line-height: 300%;
+    letter-spacing: 3px;
 }
 
-p.no-margin footer p {
+p.no-margin,
+footer p {
     margin: 0;
 }
 
 footer {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     letter-spacing: 2px;
-    padding: 12em 2% 5em 2%;
-}
-
-footer p {
-    line-height: 165%;
-    /* margin-top: 2em; */
-    margin: 0;
-    padding: 0;
+    padding: 6em 2% 5em 2%;
 }
 
 hr {
-   margin-bottom: 2em; 
+    margin-bottom: 2em;
 }
 
 form {
@@ -108,6 +106,11 @@ input {
 button {
     margin-top: 75px;
     padding: 20px 50px;
+}
+
+.btn:hover {
+    background-color: green;
+    transition: 0.5s;
 }
 
 [disabled] {

@@ -31,7 +31,7 @@ function getGift(age, gender) {
     ["Dyson Vacuum Cleaner", "baking tray", "bricklaying course", "screwdriver set", "personalised toothbrush", "pair of novelty socks", "snack hamper", "bicycle tyre", "Cluedo Board Game", "portable power bank"],
     ["set of bowls", "cricket bat", "Furby", "Star Wars Power Crystal Lightsaber", "Hasbro Frustration Board Game", "Scalextric Set", "train set", "Airfix Kit", "Evel Knievel Stunt Set", "Stretch Armstrong"],
     ["packet of paracetamol", "perm and blue rinse", "Jenga Game", "self-help book", "radio-controlled car", "build-a-bear workshop", "Rubiks Cube", "Monopoly Game", "Sylvanian Families playset", "Spirograph Set"],
-    ["bicycle", "Barbie Doll", "can of oil", "set of novelty underwear", "Fart Box", "Christmas jumper", "mini skirt", "football", "Nintendo Game Boy", "cement mixer"],
+    ["bicycle", "Barbie Doll", "can of oil", "novelty underwear", "Fart Box", "Christmas jumper", "mini skirt", "football", "Nintendo Game Boy", "cement mixer"],
   ];
 
   switch (true) {
@@ -92,8 +92,8 @@ function storeValues(key, value) {
 }
 
 function removeElem(element, callBack) {
-  setTimeout(() => element.remove(), 5000);
-  // must delay callback >5000ms
+  setTimeout(() => element.remove(), 3000);
+  // must delay callback >3000ms
   if (callBack) { callBack(); }
 }
 
@@ -128,29 +128,57 @@ function formTwo() {
     userData.userAge = randomAge;
     userData.userColour = randomColour;
     storeValues("stats", userData);
-    removeElem(elemGroup, () => setTimeout(createGift, 5100));
+    removeElem(elemGroup, () => setTimeout(createGift, 3100));
   });
 }
 
 function createGift() {
   // e, aN, aT, pI, iTx, type, for, req
-  createElem("p", "", "", "", `${userData.userName}, you will be pleased to know that we have found your perfect Christmas present. If, however, you are not completely satisfied with the data you have submitted, you may also amend your details below.`, "", "", "");
+  createElem("p", "", "", "", `${userData.userName}, you will be pleased to know that we have found your perfect Christmas present. If, however, you are not completely comfortable with the data you have submitted, you may also amend your details below.`, "", "", "");
   createElem("p", "", "", "", "Get your perfect Christmas present!", "", "", "");
-  // createElem("p", "", "", "", `${userData.userName}, if you are not completely happy with the data you have submitted you may now amend your details, or get your perfect present!`, "", "", "");
   // add telephone number js? We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
   // const teL = document.getElementById('telNum'); // telephone input
 
   const giftBtn = createElem("div", "btn", "c", "", "Present", "", "", "");
   giftBtn.title = "perfect present idea";
-  // const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
-  // amendBtn.title = "amend personal details";
   const resultP = createElem("p", "bold", "c", "", "", "", "", "");
+  const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
+  amendBtn.title = "amend personal details";
+
+
+  // todo: fix sound, not working!
+  // const clipPlayer = document.createElement("AUDIO");
+  // clipPlayer.id = "fanFare";
+  // const clipSource = document.createElement("SOURCE");
+  // clipSource.src = "/sounds/super-fanfare.mp3";
+  // clipSource.type = "audio/mpeg";
+  // clipPlayer.appendChild(clipSource);
+  // clipPlayer.textContent = "Your browser does not support the audio element.";
+  // document.body.appendChild(clipPlayer);
+
+  // clipPlayer.autoplay = "true";
+
+  // if (navigator.getAutoplayPolicy(clipPlayer) === "allowed") {
+  //   console.log("allowed");
+  // } else if (navigator.getAutoplayPolicy(clipPlayer) === "allowed-muted") {
+  //   console.log("allowed-muted");
+  // } else if (navigator.getAutoplayPolicy(clipPlayer) === "disallowed") {
+  //   console.log("disallowed");
+  // }
+
+
 
   giftBtn.addEventListener("click", () => {
     const result = getGift(userData.userAge, userData.userGender);
     resultP.textContent = `${result}`;
     giftBtn.textContent = ("More");
+    // todo: fix sound, not working!
+    // const playSound = document.getElementById("fanFare");
+    // playSound.play();
+
   });
+
+
 
   // amendBtn.addEventListener("click", () => {
   //   const result = getGift(userData.userAge, userData.userGender);
@@ -158,6 +186,9 @@ function createGift() {
   // localStorage.removeItem("stats");
   // location.reload();
   // });
+
+
+
 
 }
 
@@ -248,12 +279,38 @@ if (savedData) {
     storeValues("stats", userData);
 
     // delay, optionally run another function after removing element
-    removeElem(elemGroup, () => setTimeout(formTwo, 5100));
+    removeElem(elemGroup, () => setTimeout(formTwo, 3100));
     // removeElem(dataForm, null); // remove element, no callback
     // removeElem(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
     // also removes event handlers
   });
 }
+
+// const clipPlayer = document.createElement("audio");
+// clipPlayer.id = "fanFare";
+// const clipSource = document.createElement("SOURCE");
+// clipSource.src = "./sounds/super-fanfare.mp3";
+// clipSource.type = "audio/mpeg";
+// clipPlayer.appendChild(clipSource);
+// clipPlayer.textContent = "Your browser does not support the audio element.";
+// document.body.appendChild(clipPlayer);
+// let playSound = document.getElementById("fanFare");
+// playSound.play();
+
+
+// <audio id="fanFare">
+// <source src="horse.mp3" type="audio/mpeg">
+// Your browser does not support the audio element.
+// </audio>
+
+// <button type="button">submit</button>
+// button.addEventListener("click", (x) => x.play());
+
+// const x = document.getElementById("myAudio");
+// function playAudio() {
+//   x.play();
+// } 
+
 
 // todo: SHOW FAVOURITE CHRISTMAS PRESENT ON PAGE, add sound, fanfare?
 // todo: CREATE ANNOYING 'HURRY UP' POP-UPS or Alerts with setInterval()?
