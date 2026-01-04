@@ -12,8 +12,8 @@ function rNum(factor) {
 }
 
 const randomColour = colours[rNum(colours.length)];
-const randomAge = rNum(100) + 1;
-const maleSpliced = [];
+const randomAge = rNum(100) + 2;
+const splicedArr = [];
 
 function getGift(age, gender) {
   let index;
@@ -58,32 +58,46 @@ function getGift(age, gender) {
 
   if (gender === "male") {
     // gift = maleGifts[i][rNum(maleGifts[i].length)];
+    if (splicedArr.length > 0) {
 
-    if (maleSpliced.length > 0) {
-      if (maleSpliced[i].length > 0) {
-        index = rNum(maleSpliced[i].length);
-        gift = maleSpliced[i][index];
-        maleSpliced[i] = maleSpliced[i].toSpliced(index, 1);
+      if (splicedArr[i].length > 0) {
+        index = rNum(splicedArr[i].length);
+        gift = splicedArr[i][index];
+        splicedArr[i] = splicedArr[i].toSpliced(index, 1);
 
       } else {
-        const giftBtn = document.getElementsByClassName("btn");
-        console.log(giftBtn);
-        console.log(giftBtn[0]);
-        giftBtn[0].innerText = "No More Results";
         gift = "the end";
       }
 
     } else {
       index = rNum(maleGifts[i].length);
       gift = maleGifts[i][index];
-      maleSpliced[i] = maleGifts[i].toSpliced(index, 1);
+      splicedArr[i] = maleGifts[i].toSpliced(index, 1);
       userData.userGift = gift;
       storeValues("stats", userData);
     }
   }
 
   if (gender === "female" || gender === "unconfirmed") {
-    gift = femaleGifts[i][rNum(femaleGifts[i].length)];
+    // gift = femaleGifts[i][rNum(femaleGifts[i].length)];
+    if (splicedArr.length > 0) {
+
+      if (splicedArr[i].length > 0) {
+        index = rNum(splicedArr[i].length);
+        gift = splicedArr[i][index];
+        splicedArr[i] = splicedArr[i].toSpliced(index, 1);
+
+      } else {
+        gift = "the end";
+      }
+
+    } else {
+      index = rNum(femaleGifts[i].length);
+      gift = femaleGifts[i][index];
+      splicedArr[i] = femaleGifts[i].toSpliced(index, 1);
+      userData.userGift = gift;
+      storeValues("stats", userData);
+    }
   }
 
   return gift;
@@ -156,16 +170,17 @@ function formTwo() {
 
 function createGift() {
   // e, aN, aT, pI, iTx, type, for, req
-  createElem("p", "", "", "", `${userData.userName}, you will be pleased to know that we have found your perfect Christmas present. If, however, you are not completely happy with the data you have submitted, you may also amend your details below.`, "", "", "");
+  createElem("p", "", "", "", `${userData.userName}, you will be pleased to know that we have found your perfect Christmas present. If, however, you are not completely happy with the data you have submitted, you may also reset your details below.`, "", "", "");
+  createElem("p", "", "", "", `${userData.userName}, ${userData.userAge} year old ${userData.userGender}, favourite colour: ${userData.userColour}`, "", "", "");
   createElem("p", "", "", "", "Get your perfect Christmas present!", "", "", "");
   // add telephone number js? We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
   // const teL = document.getElementById('telNum'); // telephone input
 
   const giftBtn = createElem("div", "btn", "c", "", "Present", "", "", "");
   giftBtn.title = "perfect present idea";
-  const resultP = createElem("p", "bold", "c", "", "", "", "", "");
-  const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
-  amendBtn.title = "amend personal details";
+  const giftP = createElem("p", "bold", "c", "", "", "", "", "");
+  const resetBtn = createElem("div", "btn", "c", "", "Reset", "", "", "");
+  resetBtn.title = "reset personal details";
 
 
   // todo: fix sound, not working!
@@ -189,16 +204,22 @@ function createGift() {
   // }
 
 
-  giftBtn.addEventListener("click", () => {
-    const result = getGift(userData.userAge, userData.userGender);
-    resultP.textContent = `${result}`;
-    giftBtn.textContent = "More Results";
+  giftBtn.addEventListener("click", (e) => {
+    const gift = getGift(userData.userAge, userData.userGender);
+    giftP.textContent = `${gift}`;
+    if (gift !== "the end") {
+      giftBtn.textContent = "More Results";
+    } else {
+      giftBtn.remove();
+      // giftBtn.textContent = "the end";
+      // giftBtn.style.cursor = "not-allowed";
+    }
     // todo: fix sound, not working!
     // const playSound = document.getElementById("fanFare");
     // playSound.play();
   });
 
-  amendBtn.addEventListener("click", () => {
+  resetBtn.addEventListener("click", () => {
     localStorage.removeItem("stats");
     location.reload();
   });
@@ -222,9 +243,9 @@ if (savedData) {
   createElem("p", "", "", "", `Your gender is ${userData.userGender}`, "", "", "");
   createElem("p", "", "", "", "With the information you have provided and our clever use of generative AI, we found your perfect Christmas present:", "", "", "");
   createElem("p", "bold", "c", "", `${userData.userGift} `, "", "", "");
-  const amendBtn = createElem("div", "btn", "c", "", "Amend", "", "", "");
-  amendBtn.title = "amend personal details";
-  amendBtn.addEventListener("click", () => {
+  const resetBtn = createElem("div", "btn", "c", "", "Reset", "", "", "");
+  resetBtn.title = "reset personal details";
+  resetBtn.addEventListener("click", () => {
     localStorage.removeItem("stats");
     location.reload();
   });
@@ -251,7 +272,7 @@ if (savedData) {
     let nameGroup = rNum(userNames.length);
     autoName = userNames[nameGroup][rNum(userNames[nameGroup].length)];
     userInput.value = autoName;
-    // alert("Did you enter the correct name? An error was detected!");
+    alert("Did you enter the correct name? An error was detected!");
   });
 
   maleCheckbox.addEventListener("input", () => {
@@ -292,11 +313,10 @@ if (savedData) {
     storeValues("stats", userData);
 
     // delay, optionally run another function after removing element
-    // removeElem(elemGroup, () => setTimeout(formTwo, 3100), 3000);
     // removeElem(elemGroup, null, 0); // remove element, no callback
-    removeElem(elemGroup, () => setTimeout(formTwo, 200), 100); // remove element
+    removeElem(elemGroup, () => setTimeout(formTwo, 1000), 900);
     // removeElem(dataForm, () => setTimeout(console.log("run new function"), 6100), 6000); // test callback
-    // also removes event handlers
+    // removing element also removes event handlers
   });
 }
 
@@ -326,39 +346,25 @@ if (savedData) {
 // } 
 
 
-// todo: SHOW FAVOURITE CHRISTMAS PRESENT ON PAGE, add sound, fanfare?
-// todo: CREATE ANNOYING 'HURRY UP' POP-UPS or Alerts with setInterval()?
+// todo: SHOW FAVOURITE CHRISTMAS PRESENT ON PAGE, add sound, fanfare??
+// todo: CREATE ANNOYING 'HURRY UP' POP-UPS or Alerts with setInterval()??
 // popup - 'please submit your information' 1 second after first input changes
 // const hurryUp = setTimeout(popHurry, 1000);
 // function popHurry() {
 // alert("Please enter your name to get started");
 // }
 
-// todo: Create fake telephone number after form submission? Add to local storage?
+// todo: Create fake telephone number after form submission? Add to local storage??
 // teL.addEventListener("click", () => {
 //   teL.value = "999";
 //   const timer = setInterval(() => { teL.value = ""; alert("Thanks"); clearInterval(timer);}, 5000);
 //   popup - Thank you. Your telephone number has been submitted, we may use your number to contact you in the near future. We need this to confirm your personal information.
 // });
 
-// todo: ENTER TELEPHONE NUMBER TO CONFIRM  PERSONAL DETAILS
+// todo: ENTER TELEPHONE NUMBER TO CONFIRM  PERSONAL DETAILS??
 // please enter your telephone number, change as entered, auto submit? fake submit? 999, 118 118, 111, 1471, 123, 101
 // submit(); reset();
 
-// todo: CREATE FAVOURITE MOVIE?
+// todo: CREATE FAVOURITE MOVIE??
 // from the information you have submitted and with the clever use of generative AI, we can determine that -
 // your favourite Christmas movie is - the King's speech, Die Hard 2, Indiana Jones and the Temple of Doom, Mary Poppins
-
-// todo: CUSTOM POPUP BOX, use createElem() for this!
-// play.addEventListener("click", () => {
-//     let info = document.createElement("section");
-//     let closeBtn = document.createElement("div");
-//     info.id = "popup";
-//     info.innerHTML = "<h2>Game Play</h2><div class='scrollBox'><p>text here</p></div>";
-//     closeBtn.id = "close";
-//     closeBtn.title = "click to close";
-//     closeBtn.innerText = "✕";
-//     document.body.appendChild(info);
-//     info.appendChild(closeBtn);
-//     closeBtn.addEventListener("click", () => {info.remove();});
-// });
