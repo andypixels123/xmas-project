@@ -11,15 +11,11 @@ input {
     font-family: 'Courier New', Courier, monospace;
 }
 
-img,
-input {
-    display: block;
-}
-
 body {
-    color: #444;
     margin: 0 10px 0 10px;
     font-size: 100%;
+    text-align: center;
+    color: #444;
 }
 
 a,
@@ -44,15 +40,6 @@ main {
     padding: 2.8em 10% 5em 10%;
 }
 
-header,
-p,
-h2,
-form,
-input,
-footer {
-    text-align: center;
-}
-
 p {
     margin-bottom: 40px;
     line-height: 175%;
@@ -69,16 +56,6 @@ footer p {
     margin: 0;
 }
 
-footer {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    letter-spacing: 2px;
-    padding: 6em 2% 5em 2%;
-}
-
-hr {
-    margin-bottom: 2em;
-}
-
 form {
     width: 100%;
     max-width: 800px;
@@ -87,34 +64,11 @@ form {
 }
 
 input {
+    display: block;
     font-size: 120%;
     margin: 15px auto 50px auto;
     padding: 3px;
-}
-
-.btn {
-    display: block;
-    max-width: 30%;
-    min-width: 200px;
     text-align: center;
-    padding: 2em 0;
-    color: white;
-    background-color: red;
-    margin: 5em auto;
-}
-
-button {
-    margin-top: 75px;
-    padding: 20px 50px;
-}
-
-.btn:hover {
-    background-color: green;
-    transition: 0.5s;
-}
-
-[disabled] {
-    cursor: not-allowed;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -130,61 +84,37 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-/* ====== CUSTOM POP-UP CSS ====== */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+button {
+    margin-top: 75px;
+    padding: 20px 50px;
 }
 
-#popup {
-    animation-name: fadeIn;
-    animation-duration: 1s;
+[disabled] {
+    cursor: not-allowed;
 }
 
-#popup {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: honeydew;
-    cursor: default;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 2em;
-    position: fixed;
-    top: 2%;
-    right: 2%;
-    left: 2%;
-    bottom: 2%;
-    border-radius: 20px;
-    z-index: 20;
+.btn {
+    display: block;
+    max-width: 30%;
+    min-width: 200px;
+    text-align: center;
+    padding: 2em 0;
+    color: white;
+    background-color: red;
+    margin: 5em auto;
 }
 
-.scrollBox {
-    margin: 2em 0;
-    padding: 1.5em;
-    overflow: scroll;
+.btn:hover {
+    background-color: green;
+    transition: 0.5s;
 }
 
-.scrollBox p:first-of-type {
+hr {
     margin-bottom: 2em;
 }
 
-#close {
-    font-size: 40px;
-    color: #333333;
-}
-
-@media screen and (min-width:900px) {
-
-    #popup {
-        top: 10%;
-        right: 10%;
-        left: 10%;
-        bottom: 10%;
-    }
+footer {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    letter-spacing: 2px;
+    padding: 6em 2% 5em 2%;
 }

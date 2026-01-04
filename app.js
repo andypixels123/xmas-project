@@ -13,8 +13,10 @@ function rNum(factor) {
 
 const randomColour = colours[rNum(colours.length)];
 const randomAge = rNum(100) + 1;
+const maleSpliced = [];
 
 function getGift(age, gender) {
+  let index;
   // presents, ages 2-5, 6-12, 13-20, 21-35, 36-50, 50+
   let i, gift;
   const maleGifts = [
@@ -55,14 +57,35 @@ function getGift(age, gender) {
   }
 
   if (gender === "male") {
-    gift = maleGifts[i][rNum(maleGifts[i].length)];
+    // gift = maleGifts[i][rNum(maleGifts[i].length)];
+
+    if (maleSpliced.length > 0) {
+      if (maleSpliced[i].length > 0) {
+        index = rNum(maleSpliced[i].length);
+        gift = maleSpliced[i][index];
+        maleSpliced[i] = maleSpliced[i].toSpliced(index, 1);
+
+      } else {
+        const giftBtn = document.getElementsByClassName("btn");
+        console.log(giftBtn);
+        console.log(giftBtn[0]);
+        giftBtn[0].innerText = "No More Results";
+        gift = "the end";
+      }
+
+    } else {
+      index = rNum(maleGifts[i].length);
+      gift = maleGifts[i][index];
+      maleSpliced[i] = maleGifts[i].toSpliced(index, 1);
+      userData.userGift = gift;
+      storeValues("stats", userData);
+    }
   }
 
   if (gender === "female" || gender === "unconfirmed") {
     gift = femaleGifts[i][rNum(femaleGifts[i].length)];
   }
-  userData.userGift = gift;
-  storeValues("stats", userData);
+
   return gift;
 }
 
@@ -91,9 +114,8 @@ function storeValues(key, value) {
   localStorage.setItem(key, storageString);
 }
 
-function removeElem(element, callBack) {
-  setTimeout(() => element.remove(), 3000);
-  // must delay callback >3000ms
+function removeElem(element, callBack, ms) {
+  setTimeout(() => element.remove(), ms);
   if (callBack) { callBack(); }
 }
 
@@ -128,13 +150,13 @@ function formTwo() {
     userData.userAge = randomAge;
     userData.userColour = randomColour;
     storeValues("stats", userData);
-    removeElem(elemGroup, () => setTimeout(createGift, 3100));
+    removeElem(elemGroup, () => setTimeout(createGift, 2100), 2000);
   });
 }
 
 function createGift() {
   // e, aN, aT, pI, iTx, type, for, req
-  createElem("p", "", "", "", `${userData.userName}, you will be pleased to know that we have found your perfect Christmas present. If, however, you are not completely comfortable with the data you have submitted, you may also amend your details below.`, "", "", "");
+  createElem("p", "", "", "", `${userData.userName}, you will be pleased to know that we have found your perfect Christmas present. If, however, you are not completely happy with the data you have submitted, you may also amend your details below.`, "", "", "");
   createElem("p", "", "", "", "Get your perfect Christmas present!", "", "", "");
   // add telephone number js? We have your current location and together with the information you have provided, we are able to determine your telephone number. We have added this to your collated data and we may use this to contact you to confirm your personal details. Your telephone number is -
   // const teL = document.getElementById('telNum'); // telephone input
@@ -167,28 +189,19 @@ function createGift() {
   // }
 
 
-
   giftBtn.addEventListener("click", () => {
     const result = getGift(userData.userAge, userData.userGender);
     resultP.textContent = `${result}`;
-    giftBtn.textContent = ("More");
+    giftBtn.textContent = "More Results";
     // todo: fix sound, not working!
     // const playSound = document.getElementById("fanFare");
     // playSound.play();
-
   });
 
-
-
-  // amendBtn.addEventListener("click", () => {
-  //   const result = getGift(userData.userAge, userData.userGender);
-  //   resultP.textContent = `${result}`;
-  // localStorage.removeItem("stats");
-  // location.reload();
-  // });
-
-
-
+  amendBtn.addEventListener("click", () => {
+    localStorage.removeItem("stats");
+    location.reload();
+  });
 
 }
 
@@ -279,9 +292,10 @@ if (savedData) {
     storeValues("stats", userData);
 
     // delay, optionally run another function after removing element
-    removeElem(elemGroup, () => setTimeout(formTwo, 3100));
-    // removeElem(dataForm, null); // remove element, no callback
-    // removeElem(dataForm, () => setTimeout(console.log("run new function"), 6000)); // test callback
+    // removeElem(elemGroup, () => setTimeout(formTwo, 3100), 3000);
+    // removeElem(elemGroup, null, 0); // remove element, no callback
+    removeElem(elemGroup, () => setTimeout(formTwo, 200), 100); // remove element
+    // removeElem(dataForm, () => setTimeout(console.log("run new function"), 6100), 6000); // test callback
     // also removes event handlers
   });
 }
