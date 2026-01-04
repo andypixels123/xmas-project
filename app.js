@@ -59,16 +59,13 @@ function getGift(age, gender) {
   if (gender === "male") {
     // gift = maleGifts[i][rNum(maleGifts[i].length)];
     if (splicedArr.length > 0) {
-
       if (splicedArr[i].length > 0) {
         index = rNum(splicedArr[i].length);
         gift = splicedArr[i][index];
         splicedArr[i] = splicedArr[i].toSpliced(index, 1);
-
       } else {
         gift = "the end";
       }
-
     } else {
       index = rNum(maleGifts[i].length);
       gift = maleGifts[i][index];
@@ -76,21 +73,18 @@ function getGift(age, gender) {
       userData.userGift = gift;
       storeValues("stats", userData);
     }
-  }
 
-  if (gender === "female" || gender === "unconfirmed") {
+  } else {
+    // gender female or unconfirmed
     // gift = femaleGifts[i][rNum(femaleGifts[i].length)];
     if (splicedArr.length > 0) {
-
       if (splicedArr[i].length > 0) {
         index = rNum(splicedArr[i].length);
         gift = splicedArr[i][index];
         splicedArr[i] = splicedArr[i].toSpliced(index, 1);
-
       } else {
         gift = "the end";
       }
-
     } else {
       index = rNum(femaleGifts[i].length);
       gift = femaleGifts[i][index];
@@ -230,7 +224,7 @@ if (savedData) {
   // data found, local storage
   try {
     userData = JSON.parse(savedData);
-    console.log(userData);
+    // console.log(userData);
   } catch (err) {
     console.error(`local storage error: ${err} `);
   }
